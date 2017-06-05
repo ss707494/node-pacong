@@ -2,11 +2,18 @@
   "name": "node-pacong",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/app.js",
+    "sWithIns": "node --inspect-brk ./src/app.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.1",
+    "request": "^2.81.0",
+    "superagent": "^3.5.2"
+  }
 }

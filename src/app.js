@@ -8,7 +8,7 @@ var cheerio = require('cheerio');
 var fs = require('fs');                   //引入文件读取模块
 
 var urlData = ''
-function getData(src) {
+async function getData(src, flag) {
     //使用superagent请求url http://jandan.net/ooxx
     superagent.get(src)
         .end(function(err,docs){
@@ -22,7 +22,10 @@ function getData(src) {
             for(var i=0; i<imgArr.length; i++){
                 var _url = imgArr[i].indexOf('http:') === -1 ? 'http:' + imgArr[i] : imgArr[i];
                 // downloadImg(_url, imgArr[i].split('/')[4]);      //下载数组里的每张图片
-                urlData += _url + '\t';
+                urlData += _url + '\n';
+            }
+            if (flag) {
+                console.log(urlData);
             }
         })
 }
@@ -37,5 +40,6 @@ var downloadImg = function(url, filename){
 const _genArr = (arr = []) => n => !n
     ? arr : _genArr([n - 1, ...arr])(n - 1);
 
-_genArr()(20).map(e => getData('http://jandan.net/ooxx/page-' + e))
+const n = 90;
+_genArr()(n).map((e,i) => getData('http://jandan.net/ooxx/page-' + e, e == n-1))
 // getData('http://jandan.net/ooxx/page-1');

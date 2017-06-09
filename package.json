@@ -13,9 +13,10 @@
   "license": "ISC",
   "devDependencies": {
     "cheerio": "^1.0.0-rc.1",
+    "nightmare": "^2.10.0",
     "phantom": "^4.0.4",
     "request": "^2.81.0",
     "spooky": "^0.2.5",
-    "superagent": "^3.5.2",
+    "superagent": "^3.5.2"
   }
 }

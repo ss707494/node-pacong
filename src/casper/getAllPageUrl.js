@@ -12,27 +12,28 @@ var casper = require('casper').create({
         loadPlugins: false // use these settings
     }
 });
-var url2 = casper.cli.args.toString();
+var url2 = casper.cli.args.toString() || 'http://www.yac8.com/news/list_32.html';
 casper.start();
 casper.open(url2);
 
-function getPicUrls() {
-    $('.pageNavBox td div:last a').attr('id', '__cli');
+function getUrls() {
+    $('#newsList .navBtnPointer.fontNav_2:eq(-2)').attr('id', '__cli');
     var href = location.href;
     var url = href.slice(0, href.lastIndexOf('/') + 1)
-    return $.map($('#newsContent img'), function (e) {
-        return url + $(e).attr('src')
+    return $.map($('#newsList li .b h4 a'), function (e) {
+        return url + $(e).attr('href')
     });
 }
 casper.then(function () {
-    var le = this.evaluate(getPicUrls)
+    var le = this.evaluate(getUrls)
     page = this.evaluate(function () {
-        return $('.pageNavBox td div:eq(-2) a').text().replace(/\./g, '');
+        return $('#newsList .navBtn option:last').val();
     })
     picArr = picArr.concat(le);
     this.thenClick('#__cli');
     getByN({
         n: page,
+        n: 3,
         _cas: this
     })
 })
@@ -42,7 +43,7 @@ function getByN(option) {
         i = 0;
     while (flag - i++) {
         _cas.then(function () {
-            var le = this.evaluate(getPicUrls)
+            var le = this.evaluate(getUrls)
             picArr = picArr.concat(le);
             this.thenClick('#__cli');
         })

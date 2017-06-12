@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/app.js",
     "sWithIns": "node --inspect-brk ./src/app.js",
-    "casper": "casperjs ./src/casper/casperTest.js"
+    "casper": "casperjs ./src/casper/getAllPageUrl.js"
   },
   "keywords": [],
   "author": "",

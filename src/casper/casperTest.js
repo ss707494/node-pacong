@@ -3,6 +3,7 @@
  */
 
 var picArr = [],
+    title = '',
     page = 0;
 
 var casper = require('casper').create({
@@ -13,6 +14,9 @@ var casper = require('casper').create({
     }
 });
 var url2 = casper.cli.args.toString();
+casper.options.onError = function (casper, msg) {
+    casper.echo(url2);
+}
 casper.start();
 casper.open(url2);
 
@@ -21,7 +25,8 @@ function getPicUrls() {
     var href = location.href;
     var url = href.slice(0, href.lastIndexOf('/') + 1)
     return $.map($('#newsContent img'), function (e) {
-        return url + $(e).attr('src')
+        var imgSrc = $(e).attr('src');
+        return imgSrc.indexOf('http:') == -1 ? url + imgSrc : imgSrc;
     });
 }
 casper.then(function () {
@@ -29,6 +34,7 @@ casper.then(function () {
     page = this.evaluate(function () {
         return $('.pageNavBox td div:eq(-2) a').text().replace(/\./g, '');
     })
+    title = this.getTitle();
     picArr = picArr.concat(le);
     this.thenClick('#__cli');
     getByN({
@@ -42,6 +48,7 @@ function getByN(option) {
         i = 0;
     while (flag - i++) {
         _cas.then(function () {
+            this.echo(JSON.stringify(picArr))
             var le = this.evaluate(getPicUrls)
             picArr = picArr.concat(le);
             this.thenClick('#__cli');
@@ -49,7 +56,14 @@ function getByN(option) {
     }
 }
 casper.then(function () {
-    this.echo(JSON.stringify(picArr));
+    var _picArr = JSON.stringify(picArr);
+    var _title = title;
+    this.evaluate(function (title, data) {
+        // __utils__.sendAJAX('http://localhost:3000/downloadImg', 'POST', {ss: '123'});
+        __utils__.echo(JSON.stringify({title, data}));
+        __utils__.sendAJAX('http://localhost:3000/downloadImg', 'POST', {title, data});
+    }, _title, _picArr)
 })
+
 casper.run();
 

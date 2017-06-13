@@ -33,7 +33,6 @@ casper.then(function () {
     this.thenClick('#__cli');
     getByN({
         n: page,
-        n: 3,
         _cas: this
     })
 })
@@ -50,7 +49,11 @@ function getByN(option) {
     }
 }
 casper.then(function () {
-    this.echo(JSON.stringify(picArr));
+    var _picArr = JSON.stringify(picArr);
+    this.evaluate(function (data) {
+        __utils__.echo(JSON.stringify({data}));
+        __utils__.sendAJAX('http://localhost:3000/handleUrls', 'POST', {data});
+    }, _picArr)
 })
 casper.run();
 

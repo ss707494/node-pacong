@@ -3,3 +3,5 @@ node_modules
 /node-pacong.iml
 /.idea/
 /images/
+/babel/
+/cachFile/

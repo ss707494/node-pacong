@@ -39,6 +39,7 @@ const downImgByList = (urls, title, dir, limit = 5, callback = e =>{}) => {
     })
 }
 export {
+    fsExistsSync,
     downImgByList,
     downloadImage
 }

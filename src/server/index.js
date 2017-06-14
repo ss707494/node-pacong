@@ -59,6 +59,9 @@ const handleUrls = async (data) => {
     return
     eachLimit(JSON.parse(data.data), 5, (e, callback) => {
         doCasper('./babel/casper/casperTest.js', e, callback)
+    }, err => {
+        console.log(err);
+        console.log('finish');
     })
 }
 

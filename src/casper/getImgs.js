@@ -32,10 +32,16 @@ function getPicUrls() {
 casper.then(function () {
     var le = this.evaluate(getPicUrls)
     page = this.evaluate(function () {
-        return $('.pageNavBox td div:eq(-2) a').text().replace(/\./g, '');
+            var $pageNavBox = $('.pageNavBox td div:eq(-2) a');
+            return $pageNavBox.length ? $pageNavBox.text().replace(/\./g, '') : 1;
     })
+    // this.echo(page);
+    // return
     title = this.getTitle();
     picArr = picArr.concat(le);
+    if (page == 1) {
+        return
+    }
     this.thenClick('#__cli');
     getByN({
         n: page,
@@ -58,12 +64,13 @@ function getByN(option) {
 casper.then(function () {
     var _picArr = JSON.stringify(picArr);
     var _title = title;
-    this.evaluate(function (title, data) {
+    this.evaluate(function (title, data, url) {
         // __utils__.sendAJAX('http://localhost:3000/downloadImg', 'POST', {ss: '123'});
-        __utils__.echo(JSON.stringify({title, data}));
-        __utils__.sendAJAX('http://localhost:3000/downloadImg', 'POST', {title, data});
-    }, _title, _picArr)
+        __utils__.echo(JSON.stringify({title, data, url}));
+        __utils__.sendAJAX('http://localhost:3000/downloadImg', 'POST', {title, data, url});
+    }, _title, _picArr, url2)
 })
 
 casper.run();
+
 

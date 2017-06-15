@@ -18,11 +18,9 @@ casper.options.onError = function (casper, msg) {
     casper.echo(url2);
 }
 casper.start();
-casper.open(url2);
+casper.open('www.baidu.com');
 
 casper.thenEvaluate(function () {
-    __utils__.echo('123');
-    __utils__.sendAJAX('http://localhost:3000/downloadImg', 'POST', {ss: '123'});
 })
 casper.run();
 

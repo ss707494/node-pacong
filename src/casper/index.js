@@ -17,5 +17,13 @@ function doCasper(js='./bable/casper/casperTest.js', url, callback) {
         // console.log('child process exited with code ' + code);
     });
 }
+const doCasperPromise = async (js='./bable/casper/casperTest.js', url) => {
+    return new Promise(function (revolse) {
+        doCasper(js, url, revolse);
+    })
+}
 
-export {doCasper}
+export {
+    doCasper,
+    doCasperPromise
+}

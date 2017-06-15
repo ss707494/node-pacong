@@ -29,13 +29,15 @@ var downloadImage = function(src, dest, callback) {
 };
 var async_ = require('async')
 const downImgByList = (urls, title, dir, limit = 5, callback = e =>{}) => {
-    async_.eachLimit(urls, limit, (e, callback) => {
-        var path2 = dir+title;
-        if (!fsExistsSync(path2)) {
-            mkdirp(path2)
-        }
-        console.log((dir + e.slice(e.lastIndexOf('/') + 1)));
-        downloadImage(e, dir + title + '/' + e.slice(e.lastIndexOf('/')+1), callback);
+    return new Promise(function (resolve) {
+        async_.eachLimit(urls, limit, (e, callback) => {
+            var path2 = dir+title;
+            if (!fsExistsSync(path2)) {
+                mkdirp(path2)
+            }
+            console.log((dir + e.slice(e.lastIndexOf('/') + 1)));
+            downloadImage(e, dir + title + '/' + e.slice(e.lastIndexOf('/')+1), callback);
+        }, resolve)
     })
 }
 export {

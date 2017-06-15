@@ -6,11 +6,18 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel": "babel ./src -d ./babel -s",
+
     "startServer": "npm run babel && node ./babel/server/init.js",
+
     "getAllPages": "npm run babel && node ./babel/getAllPages.js",
     "getAllPagesDebug": "npm run babel && node  --inspect-brk ./babel/getAllPages.js",
+
     "getImgsInOnePage": "npm run babel && node ./babel/getImgsInOnePage.js",
     "getImgsInOnePageDebug": "npm run babel && node --inspect-brk ./babel/getImgsInOnePage.js",
+
+    "downloadImg": "npm run babel && node ./babel/downloadImg.js",
+    "downloadImgDebug": "npm run babel && node  --inspect-brk ./babel/downloadImg.js",
+
     "allTask": "npm run babel && npm run startServer",
     "sWithIns": "node --inspect-brk ./babel/app.js",
     "casper": "casperjs ./src/casper/casperDebug.js",

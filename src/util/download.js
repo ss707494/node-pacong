@@ -17,6 +17,12 @@ function fsExistsSync(path) {
     return true;
 }
 
+const readdir = path => new Promise(function (resolve) {
+    fs.readdir(path, function (err, dir) {
+        resolve(dir);
+    })
+});
+
 var downloadImage = function(src, dest, callback) {
     request({uri: src, encoding: 'binary'}, function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -42,6 +48,7 @@ const downImgByList = (urls, title, dir, limit = 5, callback = e =>{}) => {
 }
 export {
     fsExistsSync,
+    readdir,
     downImgByList,
     downloadImage
 }

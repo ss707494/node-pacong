@@ -9,6 +9,8 @@
 
     "startServer": "npm run babel && node ./babel/server/init.js",
 
+    "startMongoExpress": "mongo-express -a -u superuser -p password",
+
     "getAllPages": "npm run babel && node ./babel/getAllPages.js",
     "getAllPagesDebug": "npm run babel && node  --inspect-brk ./babel/getAllPages.js",
 
@@ -17,6 +19,9 @@
 
     "downloadImg": "npm run babel && node ./babel/downloadImg.js",
     "downloadImgDebug": "npm run babel && node  --inspect-brk ./babel/downloadImg.js",
+
+    "justfyDownloadState": "npm run babel && node ./babel/justfyDownloadState.js",
+    "justfyDownloadStateDebug": "npm run babel && node  --inspect-brk ./babel/justfyDownloadState.js",
 
     "allTask": "npm run babel && npm run startServer",
     "sWithIns": "node --inspect-brk ./babel/app.js",

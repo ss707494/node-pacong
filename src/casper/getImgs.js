@@ -32,12 +32,12 @@ function getPicUrls() {
 casper.then(function () {
     var le = this.evaluate(getPicUrls)
     page = this.evaluate(function () {
-            var $pageNavBox = $('.pageNavBox td div:eq(-2) a');
-            return $pageNavBox.length ? $pageNavBox.text().replace(/\./g, '') : 1;
+        var $pageNavBox = $('.pageNavBox td div:eq(-2) a');
+        return $pageNavBox.length ? $pageNavBox.text().replace(/\./g, '') : 1;
     })
     // this.echo(page);
     // return
-    title = this.getTitle();
+    title = this.getTitle().replace(/:/g, '');
     picArr = picArr.concat(le);
     if (page == 1) {
         return
@@ -49,15 +49,21 @@ casper.then(function () {
     })
 })
 function getByN(option) {
-    var flag = option.n - 2,
+    var flag = option.n - 1,
         _cas = option._cas,
-        i = 0;
-    while (flag - i++) {
-        _cas.then(function () {
-            this.echo(JSON.stringify(picArr))
-            var le = this.evaluate(getPicUrls)
-            picArr = picArr.concat(le);
-            this.thenClick('#__cli');
+        i = 0,
+        _stop = true;
+    while (_stop && flag - i++) {
+        _cas.waitWhileSelector('#__cli', function () {
+            this.then(function () {
+                // this.echo(JSON.stringify(picArr))
+                var le = this.evaluate(getPicUrls)
+                // this.echo(this.getCurrentUrl());
+                // this.echo(option.n);
+                picArr = picArr.concat(le);
+                if (!this.exists('#__cli')) return _stop = false;
+                this.thenClick('#__cli');
+            })
         })
     }
 }

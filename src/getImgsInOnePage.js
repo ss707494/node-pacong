@@ -12,8 +12,14 @@ import _ from 'lodash'
             const cursor = await collection.find().toArray();
             return cursor;
         });
+        console.log('总数:' + url.length);
+        console.log('旧的总数:' + oldUrl.length);
+
         url = _.filter(url, e => !_.some(oldUrl, old => old.url === e))
-        url = url.slice(0, 45); // 一次查询一定个数
+        console.log('过滤后:' + url.length);
+
+        return
+        url = url.slice(0, 30); // 一次查询一定个数
         console.log('需要查询的数据:' + url.length);
         if (Array.isArray(url)) {
             eachLimit(url, 2, async (e, callback) => {

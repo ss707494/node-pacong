@@ -75,7 +75,14 @@ const imgs = {
         _data.isDown = 0;
         _data.data = JSON.parse(_data.data);
         var db = await MongoClient.connect(url)
-        var res = await db.collection('imgs').insertOne(_data);
+        var col = db.collection('imgs');
+        var old = await col.findOne({url: _data.url})
+        var res ;
+        if (old) {
+            res = await col.updateOne({url: _data.url}, _data);
+        }else {
+            res = await col.insertOne(_data);
+        }
         await db.close();
         return res;
     },

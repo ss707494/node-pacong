@@ -37,14 +37,21 @@ casper.then(function () {
     })
 })
 function getByN(option) {
-    var flag = option.n - 2,
+    var flag = option.n - 1,
         _cas = option._cas,
-        i = 0;
-    while (flag - i++) {
-        _cas.then(function () {
-            var le = this.evaluate(getUrls)
-            picArr = picArr.concat(le);
-            this.thenClick('#__cli');
+        i = 0,
+        _stop = true;
+    while (_stop && flag - i++) {
+        _cas.waitWhileSelector('#__cli', function () {
+            this.then(function () {
+                // this.echo(JSON.stringify(picArr))
+                var le = this.evaluate(getUrls)
+                // this.echo(this.getCurrentUrl());
+                // this.echo(option.n);
+                picArr = picArr.concat(le);
+                if (!this.exists('#__cli')) return _stop = false;
+                this.thenClick('#__cli');
+            })
         })
     }
 }
@@ -52,6 +59,7 @@ casper.then(function () {
     var _picArr = JSON.stringify(picArr);
     this.evaluate(function (data) {
         __utils__.echo(JSON.stringify({data}));
+        __utils__.echo(JSON.parse(data).length);
         __utils__.sendAJAX('http://localhost:3000/handleUrls', 'POST', {data});
     }, _picArr)
 })

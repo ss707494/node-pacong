@@ -37,7 +37,7 @@ casper.then(function () {
     })
     // this.echo(page);
     // return
-    title = this.getTitle().replace(/:/g, '');
+    title = this.getTitle().replace(/:|<|>|\\|\/|"|\?|\*/g, '');
     picArr = picArr.concat(le);
     if (page == 1) {
         return

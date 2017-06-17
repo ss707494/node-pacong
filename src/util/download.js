@@ -30,6 +30,9 @@ var downloadImage = function(src, dest, callback) {
                 if (err) {console.log(err);}
                 callback && callback(null, dest);
             });
+        }else {
+            console.log('下载出错:' + src);
+            callback && callback(null, dest);
         }
     });
 };
@@ -41,7 +44,7 @@ const downImgByList = (urls, title, dir, limit = 5, callback = e =>{}) => {
             if (!fsExistsSync(path2)) {
                 mkdirp(path2)
             }
-            console.log((dir + e.slice(e.lastIndexOf('/') + 1)));
+            console.log(e);
             downloadImage(e, dir + title + '/' + e.slice(e.lastIndexOf('/')+1), callback);
         }, resolve)
     })

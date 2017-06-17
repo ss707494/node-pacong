@@ -5,3 +5,6 @@ node_modules
 /images*/
 /babel/
 /cachFile/
+/database/
+!/database/startDB.cmd
+!/database/creat.cmd

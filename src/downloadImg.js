@@ -18,6 +18,9 @@ const readdir = path => new Promise(function (resolve) {
         })
         console.log('待下载: ' + urlList.length);
         urlList = urlList.slice(0, 20);
+        // urlList = urlList.slice(0, 1);
+        // console.log(JSON.stringify(urlList[0].data.length));
+        // return
         await new Promise(function (resolve) {
             eachLimit(urlList, 3, async (e, callback) => {
                 const dir = './images/';

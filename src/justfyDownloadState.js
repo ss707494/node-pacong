@@ -7,12 +7,17 @@ import fs from 'fs'
 
 (async function () {
     try {
+        // 查看文件
+
+
+        // 替换文件名
+        // <>,/,\搜索,|,:,"",*,?
         // const list = await conDataTool('imgs')(async col => {
-        //     return await col.find({title: /:/}).toArray();
+        //     return await col.find({title: /:|<|>|\\|\/|"|\?|\*/g}).toArray();
         // })
         // await Promise.all(list.map(async e => {
         //     return await conDataTool('imgs')(async col => {
-        //         return await col.updateOne(e, {$set: {title: e.title.replace(/:/g, '')}})
+        //         return await col.updateOne(e, {$set: {title: e.title.replace(/:|<|>|\\|\/|"|\?|\*/g, '')}})
         //     })
         // }))
         // return
@@ -25,7 +30,15 @@ import fs from 'fs'
         }))
         await Promise.all(dirImgs.map(async e => {
             await conDataTool('imgs')(async col => {
-                const one = await col.findOne({title: e.title, isDown: 0})
+                const one = await col.findOne({title: e.title})
+                if (!one || one.data.length !== e.imgs.length) {
+                    console.log(e.title);
+                    console.log(e.imgs.length);
+                    one && console.log(one.data.length);
+                    await conDataTool('imgs')(async col => {
+                        await col.updateOne(one, {$set: {isDown: 2}});
+                    })
+                }
                 if (one && one.data.length === e.imgs.length) {
                     await conDataTool('imgs')(async col => {
                         await col.updateOne(one, {$set: {isDown: 1}});

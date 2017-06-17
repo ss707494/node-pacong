@@ -33,7 +33,7 @@ const initServer = async (option={}) => {
     return await initMongo();
 }
 
-import {imgs, urls} from '../mongodb'
+import {imgs, urls, conDataTool} from '../mongodb'
 import {downImgByList} from '../util/download'
 import fs from 'fs'
 //
@@ -55,7 +55,15 @@ const handleUrls = async (data) => {
     if (!data.data) {
         throw 'dataError:' + JSON.stringify(data);
     }
-    const res = await urls.insertOne(data);
+    var _data = JSON.parse(data.data);
+    console.log('url去重前总数:' + _data.length)
+    _data = Array.from(new Set(_data));
+    console.log('url去重后总数:' + _data.length)
+    var res = conDataTool('urls')(async col => {
+        await col.deleteMany({});
+        return await col.insertOne({data: _data});
+    })
+    // const res = await urls.insertOne(data);
     console.log(res);
     return
 }

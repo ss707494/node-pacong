@@ -15,11 +15,22 @@ import _ from 'lodash'
         console.log('总数:' + url.length);
         console.log('旧的总数:' + oldUrl.length);
 
-        url = _.filter(url, e => !_.some(oldUrl, old => old.url === e))
+        var __url = {};
+
+        url = _.filter(url, e => !_.some(oldUrl, old => {
+            if(old.url === e && __url[e]) {
+                console.log(e);
+            }
+            if (old.url === e) {
+                __url[e] = 1;
+            }
+            return old.url === e
+        }))
         console.log('过滤后:' + url.length);
 
-        return
-        url = url.slice(0, 30); // 一次查询一定个数
+        // return
+        // url = url.slice(0, 30); // 一次查询一定个数
+        url = url.slice(0, 40); // 一次查询一定个数
         console.log('需要查询的数据:' + url.length);
         if (Array.isArray(url)) {
             eachLimit(url, 2, async (e, callback) => {
